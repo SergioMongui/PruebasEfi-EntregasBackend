@@ -25,4 +25,9 @@ public class OrdenEnvioController {
     public List<OrdenEnvio> obtenerTodas() {
         return ordenEnvioService.getAll();
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarOrden(@PathVariable Long id) {
+    ordenEnvioService.eliminar(id);
+    return ResponseEntity.noContent().build();
+}
 }

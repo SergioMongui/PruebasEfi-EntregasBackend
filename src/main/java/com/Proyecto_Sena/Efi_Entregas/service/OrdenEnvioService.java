@@ -20,4 +20,8 @@ public class OrdenEnvioService {
     public List<OrdenEnvio> getAll() {
         return ordenEnvioRepository.findAll();
     }
+
+    public void eliminar(Long id) {
+    ordenEnvioRepository.deleteById(id);
+}
 }
