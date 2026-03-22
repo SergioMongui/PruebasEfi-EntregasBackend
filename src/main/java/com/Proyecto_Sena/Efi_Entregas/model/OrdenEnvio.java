@@ -17,6 +17,12 @@ public class OrdenEnvio {
     private String telefono;
     private String listaProductos;
     private Double valor;
+    private String estado;
+    private String motivoCancelacion;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
     public void setIdOrden(Long idOrden) {
         this.idOrden = idOrden;
