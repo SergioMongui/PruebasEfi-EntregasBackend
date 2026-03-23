@@ -27,4 +27,8 @@ public class OrdenEnvio {
     public void setIdOrden(Long idOrden) {
         this.idOrden = idOrden;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "idPlanTrabajo")
+    private PlanTrabajo planTrabajo;
 }

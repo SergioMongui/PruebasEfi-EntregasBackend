@@ -2,6 +2,7 @@ package com.Proyecto_Sena.Efi_Entregas.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,4 +24,6 @@ public class PlanTrabajo {
     @OneToMany(mappedBy = "planTrabajo")
     @JsonIgnore
     private List<ConexOrdenPlanTrabajo> conexionesOrdenPlan;
+
+    
 }

@@ -1,12 +1,14 @@
 package com.Proyecto_Sena.Efi_Entregas.service;
 
+import com.Proyecto_Sena.Efi_Entregas.model.ConexOrdenPlanTrabajo;
+import com.Proyecto_Sena.Efi_Entregas.model.OrdenEnvio;
 import com.Proyecto_Sena.Efi_Entregas.model.PlanTrabajo;
+import com.Proyecto_Sena.Efi_Entregas.model.PlanTrabajoDTO;
 import com.Proyecto_Sena.Efi_Entregas.repository.PlanTrabajoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.Proyecto_Sena.Efi_Entregas.repository.ConexOrdenPlanTrabajoRepository;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlanTrabajoService {
@@ -14,19 +16,39 @@ public class PlanTrabajoService {
     @Autowired
     private PlanTrabajoRepository planTrabajoRepository;
 
-    public List<PlanTrabajo> getAll() {
-        return planTrabajoRepository.findAll();
-    }
+    @Autowired
+private ConexOrdenPlanTrabajoRepository conexionRepository;
 
-    public Optional<PlanTrabajo> getById(Long id) {
-        return planTrabajoRepository.findById(id);
-    }
+    public List<PlanTrabajoDTO> obtenerTodos() {
 
-    public PlanTrabajo save(PlanTrabajo planTrabajo) {
-        return planTrabajoRepository.save(planTrabajo);
-    }
+        List<PlanTrabajo> planes = planTrabajoRepository.findAll();
 
-    public void delete(Long id) {
-        planTrabajoRepository.deleteById(id);
+        return planes.stream().map(plan -> {
+
+            PlanTrabajoDTO dto = new PlanTrabajoDTO();
+
+            dto.setIdPlan(plan.getIdPlanTrabajo());
+            dto.setEstado(plan.getEstadoPT());
+
+            List<ConexOrdenPlanTrabajo> conexiones = conexionRepository.findByPlanTrabajo(plan);
+
+            ConexOrdenPlanTrabajo conexion = conexiones.stream().findFirst().orElse(null);
+
+            if (conexion != null) {
+                dto.setFecha(conexion.getFechaCreacion());
+            }
+
+            // toma el id usuario de la orden
+            OrdenEnvio orden = conexion != null ? conexion.getOrdenEnvio() : null;
+
+            if (orden != null && orden.getUsuario() != null) {
+                dto.setNombre(orden.getUsuario().getNombre());
+                dto.setTelefono(orden.getUsuario().getTelefono());
+                dto.setEmail(orden.getUsuario().getEmail());
+            }
+
+            return dto;
+
+        }).toList();
     }
 }
