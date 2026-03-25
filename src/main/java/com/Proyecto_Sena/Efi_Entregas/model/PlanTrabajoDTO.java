@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class PlanTrabajoDTO {
 
-    private Long idPlan;
+    private Long idPlanTrabajo;
     private String estado;
     private String nombre;
     private String telefono;

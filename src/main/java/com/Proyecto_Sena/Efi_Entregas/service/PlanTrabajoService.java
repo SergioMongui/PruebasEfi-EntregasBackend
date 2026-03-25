@@ -27,7 +27,7 @@ private ConexOrdenPlanTrabajoRepository conexionRepository;
 
             PlanTrabajoDTO dto = new PlanTrabajoDTO();
 
-            dto.setIdPlan(plan.getIdPlanTrabajo());
+            dto.setIdPlanTrabajo(plan.getIdPlanTrabajo());
             dto.setEstado(plan.getEstadoPT());
 
             List<ConexOrdenPlanTrabajo> conexiones = conexionRepository.findByPlanTrabajo(plan);
