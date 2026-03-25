@@ -12,4 +12,8 @@ public class PlanTrabajoDTO {
     private String telefono;
     private String email;
     private LocalDateTime fecha;
+
+    
 }
+
+

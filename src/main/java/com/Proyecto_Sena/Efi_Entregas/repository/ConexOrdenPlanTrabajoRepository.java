@@ -7,4 +7,5 @@ import com.Proyecto_Sena.Efi_Entregas.model.PlanTrabajo;
 
 public interface ConexOrdenPlanTrabajoRepository extends JpaRepository<ConexOrdenPlanTrabajo, Long> {
 List<ConexOrdenPlanTrabajo> findByPlanTrabajo(PlanTrabajo planTrabajo);
+List<ConexOrdenPlanTrabajo> findDistinctByOrdenEnvioUsuarioIdUsuario(Long idUsuario);
 }

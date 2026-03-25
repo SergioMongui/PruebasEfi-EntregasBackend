@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Proyecto_Sena.Efi_Entregas.repository.ConexOrdenPlanTrabajoRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanTrabajoService {
@@ -17,7 +18,7 @@ public class PlanTrabajoService {
     private PlanTrabajoRepository planTrabajoRepository;
 
     @Autowired
-private ConexOrdenPlanTrabajoRepository conexionRepository;
+    private ConexOrdenPlanTrabajoRepository conexionRepository;
 
     public List<PlanTrabajoDTO> obtenerTodos() {
 
@@ -51,4 +52,38 @@ private ConexOrdenPlanTrabajoRepository conexionRepository;
 
         }).toList();
     }
+
+    public List<PlanTrabajoDTO> obtenerPorUsuario(Long idUsuario) {
+
+        List<ConexOrdenPlanTrabajo> conexiones = conexionRepository.findDistinctByOrdenEnvioUsuarioIdUsuario(idUsuario);
+
+        return conexiones.stream()
+                .collect(Collectors.toMap(
+                        conexion -> conexion.getPlanTrabajo().getIdPlanTrabajo(), // clave unica
+                        conexion -> {
+                            PlanTrabajo plan = conexion.getPlanTrabajo();
+
+                            PlanTrabajoDTO dto = new PlanTrabajoDTO();
+
+                            dto.setIdPlanTrabajo(plan.getIdPlanTrabajo());
+                            dto.setEstado(plan.getEstadoPT());
+                            dto.setFecha(conexion.getFechaCreacion());
+
+                            if (conexion.getOrdenEnvio() != null &&
+                                    conexion.getOrdenEnvio().getUsuario() != null) {
+
+                                dto.setNombre(conexion.getOrdenEnvio().getUsuario().getNombre());
+                                dto.setTelefono(conexion.getOrdenEnvio().getUsuario().getTelefono());
+                                dto.setEmail(conexion.getOrdenEnvio().getUsuario().getEmail());
+                            }
+
+                            return dto;
+                        },
+                        (existente, repetido) -> existente // evita duplicados
+                ))
+                .values()
+                .stream()
+                .toList();
+    }
+
 }
