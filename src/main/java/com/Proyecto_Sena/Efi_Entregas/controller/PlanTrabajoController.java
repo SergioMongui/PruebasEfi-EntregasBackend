@@ -24,4 +24,9 @@ public class PlanTrabajoController {
     public List<PlanTrabajoDTO> obtenerPlanesPorUsuario(@PathVariable Long idUsuario) {
         return planTrabajoService.obtenerPorUsuario(idUsuario);
     }
+
+@PutMapping("/{idPlan}/estado")
+public PlanTrabajoDTO actualizarEstado(@PathVariable Long idPlan, @RequestBody PlanTrabajoDTO dto) {
+    return planTrabajoService.actualizarEstado(idPlan, dto.getEstado());
+}
 }

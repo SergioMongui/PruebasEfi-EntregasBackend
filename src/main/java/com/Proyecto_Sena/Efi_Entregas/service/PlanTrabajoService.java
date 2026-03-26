@@ -86,4 +86,35 @@ public class PlanTrabajoService {
                 .toList();
     }
 
+public PlanTrabajoDTO actualizarEstado(Long idPlan, String nuevoEstado) {
+    PlanTrabajo plan = planTrabajoRepository.findById(idPlan)
+            .orElseThrow(() -> new RuntimeException("Plan no encontrado"));
+
+    plan.setEstadoPT(nuevoEstado);
+    PlanTrabajo planActualizado = planTrabajoRepository.save(plan);
+
+    return convertirADTO(planActualizado);
+}
+
+private PlanTrabajoDTO convertirADTO(PlanTrabajo plan) {
+    PlanTrabajoDTO dto = new PlanTrabajoDTO();
+    dto.setIdPlanTrabajo(plan.getIdPlanTrabajo());
+    dto.setEstado(plan.getEstadoPT());
+
+    List<ConexOrdenPlanTrabajo> conexiones = conexionRepository.findByPlanTrabajo(plan);
+    ConexOrdenPlanTrabajo conexion = conexiones.stream().findFirst().orElse(null);
+
+    if (conexion != null) {
+        dto.setFecha(conexion.getFechaCreacion());
+        
+        OrdenEnvio orden = conexion.getOrdenEnvio();
+        if (orden != null && orden.getUsuario() != null) {
+            dto.setNombre(orden.getUsuario().getNombre());
+            dto.setTelefono(orden.getUsuario().getTelefono());
+            dto.setEmail(orden.getUsuario().getEmail());
+        }
+    }
+
+    return dto;
+}
 }

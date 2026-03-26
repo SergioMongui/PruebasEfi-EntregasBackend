@@ -56,4 +56,18 @@ public class OrdenEnvioController {
 
         return ResponseEntity.ok("Ordenes asignadas");
     }
+
+    
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<OrdenEnvio> actualizarEstado(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> datos) {
+
+        String nuevoEstado = datos.get("estado");
+        String comentario = datos.get("comentario");
+
+        OrdenEnvio actualizada = ordenEnvioService.actualizarEstado(id, nuevoEstado, comentario);
+
+        return ResponseEntity.ok(actualizada);
+    }
 }

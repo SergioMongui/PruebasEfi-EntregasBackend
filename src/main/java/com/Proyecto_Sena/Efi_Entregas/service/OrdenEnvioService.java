@@ -84,4 +84,15 @@ public class OrdenEnvioService {
             conexionRepository.save(conexion);
         }
     }
+
+    public OrdenEnvio actualizarEstado(Long id, String nuevoEstado, String comentario) {
+    OrdenEnvio orden = ordenEnvioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
+
+    orden.setEstado(nuevoEstado);
+
+    orden.setMotivoCancelacion(comentario);
+
+    return ordenEnvioRepository.save(orden);
+}
 }
