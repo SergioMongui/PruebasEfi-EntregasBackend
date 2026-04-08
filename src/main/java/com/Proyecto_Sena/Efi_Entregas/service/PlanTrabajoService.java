@@ -6,6 +6,7 @@ import com.Proyecto_Sena.Efi_Entregas.model.PlanTrabajo;
 import com.Proyecto_Sena.Efi_Entregas.model.PlanTrabajoDTO;
 import com.Proyecto_Sena.Efi_Entregas.repository.PlanTrabajoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import com.Proyecto_Sena.Efi_Entregas.repository.ConexOrdenPlanTrabajoRepository;
 import java.util.List;
@@ -53,7 +54,7 @@ public class PlanTrabajoService {
         }).toList();
     }
 
-    public List<PlanTrabajoDTO> obtenerPorUsuario(Long idUsuario) {
+    public List<PlanTrabajoDTO> obtenerPorUsuario(@NonNull Long idUsuario) {
 
         List<ConexOrdenPlanTrabajo> conexiones = conexionRepository.findDistinctByOrdenEnvioUsuarioIdUsuario(idUsuario);
 
@@ -86,7 +87,7 @@ public class PlanTrabajoService {
                 .toList();
     }
 
-public PlanTrabajoDTO actualizarEstado(Long idPlan, String nuevoEstado) {
+public PlanTrabajoDTO actualizarEstado(@NonNull Long idPlan, @NonNull String nuevoEstado) {
     PlanTrabajo plan = planTrabajoRepository.findById(idPlan)
             .orElseThrow(() -> new RuntimeException("Plan no encontrado"));
 

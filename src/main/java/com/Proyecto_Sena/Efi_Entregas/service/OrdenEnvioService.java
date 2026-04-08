@@ -11,6 +11,7 @@ import com.Proyecto_Sena.Efi_Entregas.repository.UsuarioRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import com.Proyecto_Sena.Efi_Entregas.model.PlanTrabajo;
 
@@ -31,7 +32,7 @@ public class OrdenEnvioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public OrdenEnvio save(OrdenEnvio orden) {
+    public OrdenEnvio save(@NonNull OrdenEnvio orden) {
         if (orden.getEstado() == null || orden.getEstado().isEmpty()) {
             orden.setEstado("ACTIVA");
         }
@@ -42,11 +43,11 @@ public class OrdenEnvioService {
         return ordenEnvioRepository.findAll();
     }
 
-    public void eliminar(Long id) {
+    public void eliminar(@NonNull Long id) {
         ordenEnvioRepository.deleteById(id);
     }
 
-    public OrdenEnvio cancelarOrden(Long id, String motivo) {
+    public OrdenEnvio cancelarOrden(@NonNull Long id, String motivo) {
         OrdenEnvio orden = ordenEnvioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
 
@@ -57,7 +58,7 @@ public class OrdenEnvioService {
     }
 
     @Transactional
-    public void asignarOrdenes(Long idUsuario, List<Integer> ordenesIds) {
+    public void asignarOrdenes(@NonNull Long idUsuario, @NonNull List<Integer> ordenesIds) {
 
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -85,7 +86,7 @@ public class OrdenEnvioService {
         }
     }
 
-    public OrdenEnvio actualizarEstado(Long id, String nuevoEstado, String comentario) {
+    public OrdenEnvio actualizarEstado(@NonNull Long id, @NonNull String nuevoEstado, String comentario) {
     OrdenEnvio orden = ordenEnvioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
 

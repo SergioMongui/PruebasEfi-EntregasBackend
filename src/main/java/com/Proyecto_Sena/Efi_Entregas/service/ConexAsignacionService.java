@@ -3,6 +3,7 @@ package com.Proyecto_Sena.Efi_Entregas.service;
 import com.Proyecto_Sena.Efi_Entregas.model.ConexAsignacion;
 import com.Proyecto_Sena.Efi_Entregas.repository.ConexAsignacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,15 +19,15 @@ public class ConexAsignacionService {
         return conexAsignacionRepository.findAll();
     }
 
-    public Optional<ConexAsignacion> getById(Long id) {
+    public Optional<ConexAsignacion> getById(@NonNull Long id) {
         return conexAsignacionRepository.findById(id);
     }
 
-    public ConexAsignacion save(ConexAsignacion conexAsignacion) {
+    public ConexAsignacion save(@NonNull ConexAsignacion conexAsignacion) {
         return conexAsignacionRepository.save(conexAsignacion);
     }
 
-    public void delete(Long id) {
+    public void delete(@NonNull Long id) {
         conexAsignacionRepository.deleteById(id);
     }
 }

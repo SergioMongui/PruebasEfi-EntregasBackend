@@ -3,6 +3,7 @@ package com.Proyecto_Sena.Efi_Entregas.service;
 import com.Proyecto_Sena.Efi_Entregas.model.ConexOrdenPlanTrabajo;
 import com.Proyecto_Sena.Efi_Entregas.repository.ConexOrdenPlanTrabajoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,15 +19,15 @@ public class ConexOrdenPlanTrabajoService {
         return conexOrdenPlanTrabajoRepository.findAll();
     }
 
-    public Optional<ConexOrdenPlanTrabajo> getById(Long id) {
+    public Optional<ConexOrdenPlanTrabajo> getById(@NonNull Long id) {
         return conexOrdenPlanTrabajoRepository.findById(id);
     }
 
-    public ConexOrdenPlanTrabajo save(ConexOrdenPlanTrabajo conexOrdenPlanTrabajo) {
+    public ConexOrdenPlanTrabajo save(@NonNull ConexOrdenPlanTrabajo conexOrdenPlanTrabajo) {
         return conexOrdenPlanTrabajoRepository.save(conexOrdenPlanTrabajo);
     }
 
-    public void delete(Long id) {
+    public void delete(@NonNull Long id) {
         conexOrdenPlanTrabajoRepository.deleteById(id);
     }
 }
