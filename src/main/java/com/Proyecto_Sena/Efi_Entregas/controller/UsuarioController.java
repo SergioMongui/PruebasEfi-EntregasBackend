@@ -4,6 +4,7 @@ import com.Proyecto_Sena.Efi_Entregas.model.LoginRequest;
 import com.Proyecto_Sena.Efi_Entregas.model.Usuario;
 import com.Proyecto_Sena.Efi_Entregas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class UsuarioController {
 
     // atributo usuario y RequestBody indica que el parametro "Usuario usuario" se
     // obtenga del cuerpo de la solictud HTTP
-    public Usuario create(@RequestBody Usuario usuario) {
+    public Usuario create(@RequestBody @NonNull Usuario usuario) {
         return usuarioService.save(usuario);
     }
 
@@ -46,7 +47,7 @@ public class UsuarioController {
      * PathVariable toma valores de la url en este caso id
      * que pasa a ser parametro del metodo, si no encuentra devuelve nulo
      */
-    public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+    public ResponseEntity<Usuario> getById(@PathVariable @NonNull Long id) {
         return usuarioService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -54,7 +55,7 @@ public class UsuarioController {
 
     // Actualizar un usuario
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> update(@PathVariable @NonNull Long id, @RequestBody @NonNull Usuario usuario) {
         return usuarioService.getById(id)
                 .map(existing -> {
                     usuario.setIdUsuario(id);
@@ -65,7 +66,7 @@ public class UsuarioController {
 
     // Eliminar un usuario
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @NonNull Long id) {
         Optional<Usuario> usuario = usuarioService.getById(id);
 
         if (usuario.isPresent()) {

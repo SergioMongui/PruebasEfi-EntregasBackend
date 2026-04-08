@@ -70,7 +70,7 @@ public class OrdenEnvioService {
 
         for (Integer id : ordenesIds) {
 
-            OrdenEnvio orden = ordenEnvioRepository.findById(Long.valueOf(id))
+            OrdenEnvio orden = ordenEnvioRepository.findById(id.longValue())
                     .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
 
             orden.setUsuario(usuario);

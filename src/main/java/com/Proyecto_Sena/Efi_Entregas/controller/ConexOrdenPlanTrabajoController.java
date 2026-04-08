@@ -3,6 +3,7 @@ package com.Proyecto_Sena.Efi_Entregas.controller;
 import com.Proyecto_Sena.Efi_Entregas.model.ConexOrdenPlanTrabajo;
 import com.Proyecto_Sena.Efi_Entregas.service.ConexOrdenPlanTrabajoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,20 +23,20 @@ public class ConexOrdenPlanTrabajoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConexOrdenPlanTrabajo> getById(@PathVariable Long id) {
+    public ResponseEntity<ConexOrdenPlanTrabajo> getById(@PathVariable @NonNull Long id) {
         return conexOrdenPlanTrabajoService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ConexOrdenPlanTrabajo create(@RequestBody ConexOrdenPlanTrabajo conexOrdenPlanTrabajo) {
+    public ConexOrdenPlanTrabajo create(@RequestBody @NonNull ConexOrdenPlanTrabajo conexOrdenPlanTrabajo) {
         return conexOrdenPlanTrabajoService.save(conexOrdenPlanTrabajo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ConexOrdenPlanTrabajo> update(@PathVariable Long id,
-            @RequestBody ConexOrdenPlanTrabajo conexOrdenPlanTrabajo) {
+    public ResponseEntity<ConexOrdenPlanTrabajo> update(@PathVariable @NonNull Long id,
+            @RequestBody @NonNull ConexOrdenPlanTrabajo conexOrdenPlanTrabajo) {
         return conexOrdenPlanTrabajoService.getById(id)
                 .map(existing -> {
                     conexOrdenPlanTrabajo.setIdConexOrdenPlanTrabajo(id);
@@ -45,7 +46,7 @@ public class ConexOrdenPlanTrabajoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @NonNull Long id) {
         Optional<ConexOrdenPlanTrabajo> conex = conexOrdenPlanTrabajoService.getById(id);
         if (conex.isPresent()) {
             conexOrdenPlanTrabajoService.delete(id);
