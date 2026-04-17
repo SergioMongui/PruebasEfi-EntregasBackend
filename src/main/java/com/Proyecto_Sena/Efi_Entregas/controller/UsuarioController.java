@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import java.util.List;
 
+import java.util.Map;
+import java.util.HashMap;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+
 //indica que esta clase es un controlador de spring y maneja solicitudes http
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -74,6 +79,22 @@ public class UsuarioController {
             return ResponseEntity.noContent().build(); 
         } else {
             return ResponseEntity.notFound().build(); 
+        }
+    }
+
+    // Nuevo endpoint para subir imagen de perfil
+    @PutMapping("/{id}/imagen")
+    public ResponseEntity<Map<String, String>> uploadImagen(@PathVariable Long id, @RequestParam("archivo") MultipartFile archivo) {
+        try {
+            String ruta = usuarioService.guardarImagenPerfil(id, archivo);
+            Map<String, String> response = new HashMap<>();
+            response.put("mensaje", "Imagen subida correctamente");
+            response.put("ruta", ruta);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("mensaje", "Error al subir la imagen: " + e.getMessage());
+            return ResponseEntity.status(500).body(error);
         }
     }
 

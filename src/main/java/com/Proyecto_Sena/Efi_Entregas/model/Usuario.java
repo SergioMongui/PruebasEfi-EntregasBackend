@@ -43,4 +43,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<ConexAsignacion> asignaciones; 
 
+    @Column(nullable = true)
+    private String imagenPerfil;
+
 }
